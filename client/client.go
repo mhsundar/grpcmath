@@ -2,10 +2,10 @@ package main
 
 import (
 	"bufio"
-	_ "flag"
 	"fmt"
 	"log"
 	"os"
+	"runtime"
 	"strconv"
 	"strings"
 
@@ -18,17 +18,17 @@ const port = ":9000"
 
 // main works as the main entry point of the client cli
 func main() {
-	//param1 := flag.Int("Param1", 0, "First parameter")
-	//param2 := flag.Int("Param2", 0, "Second parameter")
-	//address := flag.String("Address", "localhost:9000", "Address to the calculator server")
-	//operation := flag.String("Operation", "", "Operation to execute, one of (add, subtract, multiply, divide)")
-	//flag.Parse()
+
+	newline := "\n"
+	if runtime.GOOS == "windows" {
+		newline = "\r\n"
+	}
 
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Printf("Enter Server Address [Defaults to localhost:9000] : ")
 	address, _ := reader.ReadString('\n')
-	add := strings.TrimSuffix(address, "\n")
+	add := strings.TrimSuffix(address, newline)
 	if strings.Compare(add, "") == 0 {
 		add = "localhost:9000"
 	}
@@ -46,18 +46,18 @@ func main() {
 		fmt.Println("\n1. Add\n2. Subtract\n3. Multiply\n4. Divide\n5. Exit")
 		fmt.Printf("Choose Operation: ")
 		operation, _ := reader.ReadString('\n')
-		op, _ := strconv.Atoi(strings.TrimSuffix(operation, "\n"))
+		op, _ := strconv.Atoi(strings.TrimSuffix(operation, newline))
 
 		var loperand, roperand int
 
 		if op >= 1 && op <= 4 {
 			fmt.Printf("Enter Operand1: ")
 			param1, _ := reader.ReadString('\n')
-			loperand, _ = strconv.Atoi(strings.TrimSuffix(param1, "\n"))
+			loperand, _ = strconv.Atoi(strings.TrimSuffix(param1, newline))
 
 			fmt.Printf("Enter Operand2: ")
 			param2, _ := reader.ReadString('\n')
-			roperand, _ = strconv.Atoi(strings.TrimSuffix(param2, "\n"))
+			roperand, _ = strconv.Atoi(strings.TrimSuffix(param2, newline))
 		}
 
 		switch op {
