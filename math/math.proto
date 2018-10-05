@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package math;
+
+// message for Math parameters, only support two parameters  both of them need to be integers
+message Parameters{
+    int32 param1 = 1;
+    int32 param2 = 2;
+}
+
+// message for Math response, will be float
+message Result{
+    float result=1;
+}
+
+
+// define the Math service
+service Math{
+    rpc Add (Parameters) returns (Result);
+    rpc Subtract (Parameters) returns (Result);
+    rpc Multiply (Parameters) returns (Result);
+    rpc Divide (Parameters) returns  (Result);
+}
